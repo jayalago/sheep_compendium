@@ -14,3 +14,10 @@ def add_sheep(sheep: Sheep):
         raise HTTPException(status_code=400, detail="Sheep with this ID already exists")
     db.data[sheep.id] = sheep
     return sheep
+
+@app.delete("/sheep/{id}", status_code=status.HTTP_200_OK)
+def delete_sheep(id: int):
+    if id not in db.data:
+        raise HTTPException(status_code=400, detail="Sheep with this ID does not exist")
+    del_sheep = db.delete_sheep(id)
+    return {"message": f"Sheep '{del_sheep.name}' was deleted"}

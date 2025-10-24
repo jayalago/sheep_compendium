@@ -35,4 +35,21 @@ def test_add_sheep():
 
     assert get_response.json() == new_sheep
 
+#testing deleting sheep
+def test_delete_sheep():
+    new_sheep = {
+        "id": 8,
+        "name": "Sully",
+        "breed": "Suffolk",
+        "sex": "ram"
+    }
+    added_sheep = client.post("/sheep/", json=new_sheep)
+    assert added_sheep.status_code == 201
+
+    #delete sheep
+    response = client.delete(f"/sheep/{new_sheep['id']}")
+    assert response.status_code == 200
+
+    get_response = client.get(f"/sheep/{new_sheep['id']}")
+    assert get_response.status_code == 404
 
